@@ -8,6 +8,7 @@ Rudimentary nodeJS service for optimizing photos for Spectra 6 E-Ink displays.
   - [📖 Inhaltsverzeichnis](#-inhaltsverzeichnis)
   - [✨ Features](#-features)
   - [📖 Background](#-background)
+  - [📖 Example picture](#-example-picture)
   - [🧩 Requirements](#-requirements)
   - [📦 Installation](#-installation)
     - [Debian: Install system dependencies for node-canvas](#debian-install-system-dependencies-for-node-canvas)
@@ -38,6 +39,16 @@ I purchased a [**BLOOMIN8 e-ink picture frame**](https://www.bloomin8.com/) with
 I then bought a [**paperlesspaper OpenPaper 7**](https://paperlesspaper.de/), which also runs on Spectra 6 but has different hardware. For this, there is [**EPD Optimize**](https://github.com/Utzel-Butzel/epdoptimize), but it does not work well with the BLOOMIN8 picture frame. 
 
 Therefore, I implemented this nodeJS service to optimize photos for both types of picture frames. After much trial and error, I found the settings I made to be optimal for me. However, they can be adjusted to suit your taste.
+
+## 📖 Example picture
+
+- The first picture is the not optimized original. 
+- The frame pictures show my BLOOMIN8 13,3" frame in a custom wooden frame with UV70 museum glass (frame is delivered with aluminum frame without glass) in daylight after optimization with the following parameters: ```outW = 1200, outH = 1600, fit = cover, format = jpeg, gamma = 0.85, saturation = 1.15, lift = 13, liftThreshold = 90, epd_optimize = 0, color_optimize = 1```. 
+- As you can see, colors are not perfectly accurate and are a bit dull, but look quite well and photo-like in real life. UV70 museum glass makes a huge difference.
+
+![original](./README/original.jpg)
+![frame-1](./README/frame-1.jpg)
+![frame-2](./README/frame-2.jpg)
 
 ## 🧩 Requirements
 
