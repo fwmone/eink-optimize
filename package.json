@@ -1,4 +1,7 @@
 {
+  "name": "eink-optimize",
+  "version": "0.1.0",
+  "description": "Optimization for Spectra6 eInk picture frames",
   "dependencies": {
     "canvas": "^3.2.0",
     "epdoptimize": "^0.1.3",
