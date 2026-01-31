@@ -134,7 +134,7 @@ And a test optimize (with any image URL accessible from the Debian server):
 ```bash
 curl -X POST http://localhost:3030/optimize \
   -H "Content-Type: application/json" \
-  -d '{"image_url":"https://example.com/test.jpg","mode":"spectra6",‘width’:1200,"height":1600}' \
+  -d '{"image_url":"https://example.com/test.jpg","mode":"spectra6","width":1200,"height":1600}' \
   --output out.png
 ```
 
