@@ -34,11 +34,11 @@ Rudimentary nodeJS service for optimizing photos for Spectra 6 E-Ink displays.
 
 ## 📖 Background
 
-I purchased a [**BLOOMIN8 e-ink picture frame**](https://www.bloomin8.com/) with a Spectra 6 E-Ink display to display photos. To do this, I use my [Home Assistant Custom Component](https://github.com/fwmone/bloomin8_pull), which allows the picture frame to retrieve new photos. The photo quality was unedited, colorless, and dull. In addition, the photos had to be scaled correctly. 
+I purchased a [**BLOOMIN8 e-ink picture frame**](https://www.bloomin8.com/) with a Spectra 6 E-Ink display to display photos. To do this, I use my [Home Assistant Custom Component](https://github.com/fwmone/bloomin8_pull), which allows the picture frame to retrieve new photos. The photo quality was dark, colorless, and dull. In addition, the photos had to be scaled correctly. 
 
-I then bought a [**paperlesspaper OpenPaper 7**](https://paperlesspaper.de/), which also runs on Spectra 6 but has different hardware. For this, there is [**EPD Optimize**](https://github.com/Utzel-Butzel/epdoptimize), but it does not work well with the BLOOMIN8 picture frame. 
+I also bought a [**paperlesspaper OpenPaper 7**](https://paperlesspaper.de/), which runs on Spectra 6, too, but has different hardware. For this frame, there is [**EPD Optimize**](https://github.com/Utzel-Butzel/epdoptimize), but it does not work well with the BLOOMIN8 picture frame. 
 
-Therefore, I implemented this nodeJS service to optimize photos for both types of picture frames. After much trial and error, I found the settings I made to be optimal for me. However, they can be adjusted to suit your taste.
+Therefore, I implemented this nodeJS service to optimize photos for both types of picture frames. After much trial and error, I found this setup and these settings to be optimal for me. However, they can be adjusted to suit your taste.
 
 ## 📖 Example picture
 
