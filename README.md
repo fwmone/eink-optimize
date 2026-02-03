@@ -1,16 +1,12 @@
-# eInk picture frame / canvas optimizer
+# 📖 Table of contents
 
-Rudimentary nodeJS service for optimizing photos for Spectra 6 E-Ink displays. 
-
-## 📖 Inhaltsverzeichnis
-
-- [eInk picture frame / canvas optimizer](#eink-picture-frame--canvas-optimizer)
-  - [📖 Inhaltsverzeichnis](#-inhaltsverzeichnis)
-  - [✨ Features](#-features)
-  - [📖 Background](#-background)
-  - [📖 Example picture](#-example-picture)
-  - [🧩 Requirements](#-requirements)
-  - [📦 Installation](#-installation)
+- [📖 Table of contents](#-table-of-contents)
+- [✨ Features](#-features)
+- [📖 Background](#-background)
+- [📖 Example picture](#-example-picture)
+- [📦 Installation methods](#-installation-methods)
+  - [Linux command line (tried on Debian)](#linux-command-line-tried-on-debian)
+    - [🧩 Requirements](#-requirements)
     - [Debian: Install system dependencies for node-canvas](#debian-install-system-dependencies-for-node-canvas)
     - [Install Node.js \& npm](#install-nodejs--npm)
     - [Obtain repository](#obtain-repository)
@@ -18,21 +14,26 @@ Rudimentary nodeJS service for optimizing photos for Spectra 6 E-Ink displays.
       - [Option B: Download as ZIP](#option-b-download-as-zip)
     - [Install dependencies](#install-dependencies)
     - [Run as a systemd service](#run-as-a-systemd-service)
-  - [Usage](#usage)
-  - [🚫 Limitations](#-limitations)
-  - [🛠️ Development \& status](#️-development--status)
-  - [🐞 Report a bug](#-report-a-bug)
-  - [🙏 Note](#-note)
+  - [Docker container](#docker-container)
+    - [🧩 Requirements](#-requirements-1)
+    - [Build image](#build-image)
+    - [Run container](#run-container)
+- [💻 Usage](#-usage)
+- [🚫 Limitations](#-limitations)
+- [🛠️ Development \& status](#️-development--status)
+- [🐞 Report a bug](#-report-a-bug)
+- [🙏 Note](#-note)
 
+# ✨ Features
 
-## ✨ Features
+Rudimentary nodeJS service for optimizing photos for Spectra 6 E-Ink displays.
 
 - nodeJS service
 - Provides two REST API endpoints: /health and /optimize
 - Returns an image optimized for Spectra 6 E-Ink display
 - Offers several settings options for customization to suit your preferences
 
-## 📖 Background
+# 📖 Background
 
 I purchased a [**BLOOMIN8 e-ink picture frame**](https://www.bloomin8.com/) with a Spectra 6 E-Ink display to display photos. To do this, I use my [Home Assistant Custom Component](https://github.com/fwmone/bloomin8_pull), which allows the picture frame to retrieve new photos. The photo quality was dark, colorless, and dull. In addition, the photos had to be scaled correctly. 
 
@@ -40,7 +41,7 @@ I also bought a [**paperlesspaper OpenPaper 7**](https://paperlesspaper.de/), wh
 
 Therefore, I implemented this nodeJS service to optimize photos for both types of picture frames. After much trial and error, I found this setup and these settings to be optimal for me. However, they can be adjusted to suit your taste.
 
-## 📖 Example picture
+# 📖 Example picture
 
 - The first picture is the not optimized original. 
 - The frame pictures show my BLOOMIN8 13,3" frame in a custom wooden frame with UV70 museum glass (frame is delivered with aluminum frame without glass) in daylight after optimization with the following parameters: ```outW = 1200, outH = 1600, fit = cover, format = jpeg, gamma = 0.85, saturation = 1.15, lift = 13, liftThreshold = 90, epd_optimize = 0, color_optimize = 1```. 
@@ -50,7 +51,11 @@ Therefore, I implemented this nodeJS service to optimize photos for both types o
 ![frame-1](./README/frame-1.jpg)
 ![frame-2](./README/frame-2.jpg)
 
-## 🧩 Requirements
+# 📦 Installation methods
+
+## Linux command line (tried on Debian)
+
+### 🧩 Requirements
 
 - Node.js (recommended: current LTS version)
 - npm (comes with Node.js; automatically installed with LTS)
@@ -60,7 +65,6 @@ Therefore, I implemented this nodeJS service to optimize photos for both types o
 
 Note: If you are unsure which Node version you have, run node -v and npm -v in the terminal.
 
-## 📦 Installation
 
 ### Debian: Install system dependencies for node-canvas
 
@@ -175,7 +179,29 @@ sudo systemctl enable --now eink-optimize
 sudo systemctl status eink-optimize
 ```
 
-## Usage
+## Docker container
+
+You can also use `eink optimize` entirely via Docker without having to install Node.js and npm locally (Thanks @[jetpacktuxedo](https://github.com/fwmone/eink-optimize/commits?author=jetpacktuxedo) for adding the Dockerfile).
+
+### 🧩 Requirements
+
+- Docker Desktop (Windows/macOS) or Docker Engine (Linux)
+
+### Build image
+
+In the root directory of this repository:
+
+```bash
+docker build -t eink-optimize .
+```
+
+### Run container
+
+```bash
+docker run --rm eink-optimize
+```
+
+# 💻 Usage
 
 The best way to call it is via cURL:
 
@@ -216,21 +242,21 @@ Possible parameters in the JSON payload (curl -d) are:
 |epd_optimize|Uses EPDOptimize for paperlesspaper picture frames. Does not work well with BLOOMIN8.|
 |color_optimize|Color optimization, i.e., gamma, saturation, lift|
 
-## 🚫 Limitations
+# 🚫 Limitations
 
 The script is very rudimentary and was developed quickly and dirty—it serves its purpose. I welcome any optimizations or ideas.
 
-## 🛠️ Development & status
+# 🛠️ Development & status
 
 This integration is currently under active development. 
 Feedback, bug reports, and pull requests are welcome.
 
-## 🐞 Report a bug
+# 🐞 Report a bug
 
 Please use the issue tracker on GitHub:
 
 👉 https://github.com/fwmone/eink-optimize/issues
 
-## 🙏 Note
+# 🙏 Note
 
 This integration has no official connection to the manufacturer of BLOOMIN8 or paperlesspaper.
