@@ -19,6 +19,10 @@
     - [Build image](#build-image)
     - [Run container](#run-container)
 - [💻 Usage](#-usage)
+  - [Health endpoint](#health-endpoint)
+  - [Image optimization using JSON](#image-optimization-using-json)
+  - [Image optimization using direct POST image upload](#image-optimization-using-direct-post-image-upload)
+  - [Possible parameters](#possible-parameters)
 - [🚫 Limitations](#-limitations)
 - [🛠️ Development \& status](#️-development--status)
 - [🐞 Report a bug](#-report-a-bug)
@@ -32,6 +36,8 @@ Rudimentary nodeJS service for optimizing photos for Spectra 6 E-Ink displays.
 - Provides two REST API endpoints: /health and /optimize
 - Returns an image optimized for Spectra 6 E-Ink display
 - Offers several settings options for customization to suit your preferences
+- Supports JSON or HTML form input
+- Supports image input using a URL or direct POST upload of an image file
 
 # 📖 Background
 
@@ -203,6 +209,8 @@ docker run --rm eink-optimize
 
 # 💻 Usage
 
+## Health endpoint
+
 The best way to call it is via cURL:
 
 ```bash
@@ -215,7 +223,7 @@ It should return:
 {"ok":true}
 ```
 
-For image optimization:
+## Image optimization using JSON
 
 ```bash
 curl -X POST http://localhost:3030/optimize \
@@ -226,11 +234,28 @@ curl -X POST http://localhost:3030/optimize \
 
 The optimized image should then appear in the **out.jpg** file.
 
-Possible parameters in the JSON payload (curl -d) are:
+## Image optimization using direct POST image upload
+
+```bash
+curl -X POST "http://localhost:3030/optimize" \
+  -F "image=@./input.jpg" \
+  -F "outW=1200" \
+  -F "outH=1600" \
+  -F "fit=contain" \
+  -F "format=jpeg" \
+  --output out.jpg
+```
+
+The optimized image should then appear in the **out.jpg** file.
+
+## Possible parameters
+
+Possible parameters are:
 
 |key|explanation|
 |----------|---------|
 |imageUrl|URL of the image to be optimized|
+|image|POST image HTML form field containing the binary image data - not available in JSON mode|
 |outW|Width of the optimized image|
 |outH|Height of the optimized image|
 |fit|cover = fill completely, crop edges if necessary, or contain = reduce size, with background color|
