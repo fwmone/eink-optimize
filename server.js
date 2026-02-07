@@ -95,8 +95,8 @@ app.post("/optimize", upload.single("image"), async (req, res) => {
     const lift = num(req.body?.lift, 10);
     const liftThreshold = num(req.body?.liftThreshold, 90);
 
-    const epd_optimize = String(req.body?.epd_optimize ?? "false") === "true";
-    const color_optimize = String(req.body?.color_optimize ?? "true") !== "false";
+    const epd_optimize = num(req.body?.epd_optimize, 0);
+    const color_optimize = num(req.body?.color_optimize, 1);
 
     // 1) Load image: either uploaded file or URL
     let img;
@@ -150,16 +150,17 @@ app.post("/optimize", upload.single("image"), async (req, res) => {
       const preparedCanvas = createCanvas(outW, outH);
 
       // Spectra6 Palette
-      const paletteName = display;
-      const deviceColorsName = display;
+      const paletteName = "spectra6";
+      const deviceColorsName = "spectra6";
       const palette = getDefaultPalettes(paletteName);
 
       const myPalette = [
-        "#2d233b", // black
-        "#b0bfc6", // white
-        "#a92d2d", // red
-        "#518167", // green
-        "#2967ba", // blue
+        "#1F2226", 
+        "#B9C7C9", 
+        "#233F8E", 
+        "#35563A", 
+        "#62201E", 
+        "#C1BB1E"
       ];      
 
       const deviceColors = getDeviceColors(deviceColorsName);
