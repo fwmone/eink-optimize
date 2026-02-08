@@ -3,7 +3,9 @@
 - [📖 Table of contents](#-table-of-contents)
 - [✨ Features](#-features)
 - [📖 Background](#-background)
-- [📖 Example picture (BLOOMIN8)](#-example-picture-bloomin8)
+- [📖 Example pictures](#-example-pictures)
+  - [BLOOMIN8 13,3" frame](#bloomin8-133-frame)
+  - [paperlesspaper OpenPaper 7 frame](#paperlesspaper-openpaper-7-frame)
 - [📦 Installation methods](#-installation-methods)
   - [Linux command line (tried on Debian)](#linux-command-line-tried-on-debian)
     - [🧩 Requirements](#-requirements)
@@ -46,19 +48,31 @@ Rudimentary nodeJS service for optimizing photos for Spectra 6 E-Ink displays.
 
 I purchased a [**BLOOMIN8 e-ink picture frame**](https://www.bloomin8.com/) with a Spectra 6 E-Ink display to display photos. To do this, I use my [Home Assistant Custom Component](https://github.com/fwmone/bloomin8_pull), which allows the picture frame to retrieve new photos. The photo quality was dark, colorless, and dull. In addition, the photos had to be scaled correctly. 
 
-I also bought a [**paperlesspaper OpenPaper 7**](https://paperlesspaper.de/), which runs on Spectra 6, too, but has different hardware. For this frame, there is [**EPD Optimize**](https://github.com/Utzel-Butzel/epdoptimize). EPD Optimize does not work well with the BLOOMIN8 picture frame, but is essential for the paperlesspaper frame. For paperlesspaper frames, I also created a [Home Assistant Custom Component](https://github.com/fwmone/paperlesspaper_push) that allows you to push new images and retrieves telemetry information.
+I also bought a [**paperlesspaper OpenPaper 7**](https://paperlesspaper.de/), which runs on Spectra 6, too, but has different hardware. For this frame, there is [**EPD Optimize**](https://github.com/Utzel-Butzel/epdoptimize). EPD Optimize does not work well with the BLOOMIN8 picture frame when using its [standard image upload endpoint0(https://bloomin8.readme.io/reference/post_upload-1), but is essential for the paperlesspaper frame. It might work for the [BLOOMIN8 Dithered Image Data upload endpoint](https://bloomin8.readme.io/reference/post_image-dataupload-1), but I haven't tested it yet. For paperlesspaper frames, I also created a [Home Assistant Custom Component](https://github.com/fwmone/paperlesspaper_push) that allows you to push new images and retrieves telemetry information.
 
 Therefore, I implemented this nodeJS service to optimize photos for both types of picture frames. After much trial and error, I found this setup and these settings to be optimal for me. However, they can be adjusted to suit your taste.
 
-# 📖 Example picture (BLOOMIN8)
+# 📖 Example pictures
+
+## BLOOMIN8 13,3" frame
 
 - The first picture is the not optimized original. 
-- The frame pictures show my BLOOMIN8 13,3" frame in a custom wooden frame with UV70 museum glass (frame is delivered with aluminum frame without glass) in daylight after optimization with the following parameters: ```outW = 1200, outH = 1600, fit = cover, format = jpeg, gamma = 0.85, saturation = 1.15, lift = 13, liftThreshold = 90, epd_optimize = 0, color_optimize = 1```. 
-- As you can see, colors are not perfectly accurate and are a bit dull, but look quite well and photo-like in real life. UV70 museum glass makes a huge difference.
+- The frame pictures show my BLOOMIN8 13,3" in a custom wooden frame with UV70 museum glass (frame is delivered with aluminum frame without glass) in daylight after optimization with the following parameters: ```outW = 1200, outH = 1600, fit = cover, format = jpeg, gamma = 0.85, saturation = 1.15, lift = 13, liftThreshold = 90, epd_optimize = 0, color_optimize = 1```. 
+- Colors are not perfectly accurate and a bit dull, but look quite well and photo-like in real life in most of my photo setups. UV70 museum glass makes a visible difference.
 
 ![original](./README/original.jpg)
 ![frame-1](./README/frame-1.jpg)
 ![frame-2](./README/frame-2.jpg)
+
+## paperlesspaper OpenPaper 7 frame
+
+- The first picture is the not optimized original. 
+- The frame pictures show my paperlesspaper OpenPaper 7 in the standard black wooden frame with UV70 museum glass in daylight. I attached an [EaselMate frame stand](https://www.fletcher-terry.com/frame-joining-cutting-hanging-automation-1/albin-hanging-display-products). Optimization is done with the following parameters: ```{"outW":480, "outH":800, "format":"png", "epd_optimize": 1, "color_optimize": 0, "fit":"cover"}```. 
+- As with the BLOOMIN8 frame, colors are also not perfectly accurate and are a little bit dull, but I like its real life results even better.  EPD Optimize seems to handle colors a little bit better than BLOOMIN8's internal frame logic. If you do not use EPD Optimize or paperlesspaper's Web UI / app, your photos will be looking awful.
+
+![original](./README/original-2.jpg)
+![frame-1](./README/frame-3.jpg)
+![frame-2](./README/frame-4.jpg)
 
 # 📦 Installation methods
 
