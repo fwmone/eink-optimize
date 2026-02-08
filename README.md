@@ -3,7 +3,7 @@
 - [📖 Table of contents](#-table-of-contents)
 - [✨ Features](#-features)
 - [📖 Background](#-background)
-- [📖 Example picture](#-example-picture)
+- [📖 Example picture (BLOOMIN8)](#-example-picture-bloomin8)
 - [📦 Installation methods](#-installation-methods)
   - [Linux command line (tried on Debian)](#linux-command-line-tried-on-debian)
     - [🧩 Requirements](#-requirements)
@@ -23,6 +23,9 @@
   - [Image optimization using JSON](#image-optimization-using-json)
   - [Image optimization using direct POST image upload](#image-optimization-using-direct-post-image-upload)
   - [Possible parameters](#possible-parameters)
+- [My settings for BLOOMIN8 and paperlesspaper](#my-settings-for-bloomin8-and-paperlesspaper)
+  - [BLOOMIN8 (portrait orientation)](#bloomin8-portrait-orientation)
+  - [paperlesspaper (portrait orientation)](#paperlesspaper-portrait-orientation)
 - [🚫 Limitations](#-limitations)
 - [🛠️ Development \& status](#️-development--status)
 - [🐞 Report a bug](#-report-a-bug)
@@ -43,11 +46,11 @@ Rudimentary nodeJS service for optimizing photos for Spectra 6 E-Ink displays.
 
 I purchased a [**BLOOMIN8 e-ink picture frame**](https://www.bloomin8.com/) with a Spectra 6 E-Ink display to display photos. To do this, I use my [Home Assistant Custom Component](https://github.com/fwmone/bloomin8_pull), which allows the picture frame to retrieve new photos. The photo quality was dark, colorless, and dull. In addition, the photos had to be scaled correctly. 
 
-I also bought a [**paperlesspaper OpenPaper 7**](https://paperlesspaper.de/), which runs on Spectra 6, too, but has different hardware. For this frame, there is [**EPD Optimize**](https://github.com/Utzel-Butzel/epdoptimize), but it does not work well with the BLOOMIN8 picture frame. 
+I also bought a [**paperlesspaper OpenPaper 7**](https://paperlesspaper.de/), which runs on Spectra 6, too, but has different hardware. For this frame, there is [**EPD Optimize**](https://github.com/Utzel-Butzel/epdoptimize). EPD Optimize does not work well with the BLOOMIN8 picture frame, but is essential for the paperlesspaper frame. For paperlesspaper frames, I also created a [Home Assistant Custom Component](https://github.com/fwmone/paperlesspaper_push) that allows you to push new images and retrieves telemetry information.
 
 Therefore, I implemented this nodeJS service to optimize photos for both types of picture frames. After much trial and error, I found this setup and these settings to be optimal for me. However, they can be adjusted to suit your taste.
 
-# 📖 Example picture
+# 📖 Example picture (BLOOMIN8)
 
 - The first picture is the not optimized original. 
 - The frame pictures show my BLOOMIN8 13,3" frame in a custom wooden frame with UV70 museum glass (frame is delivered with aluminum frame without glass) in daylight after optimization with the following parameters: ```outW = 1200, outH = 1600, fit = cover, format = jpeg, gamma = 0.85, saturation = 1.15, lift = 13, liftThreshold = 90, epd_optimize = 0, color_optimize = 1```. 
@@ -228,7 +231,7 @@ It should return:
 ```bash
 curl -X POST http://localhost:3030/optimize \
 -H "Content-Type: application/json" \
--d '{"imageUrl":"<URL_TO_BE_OPTIMIZED_IMAGE>","outW":1200,"outH":1600,"format":"jpeg", "spectra6_optimize": 0, "eink_optimize": 1, "fit": "cover", "gamma": 0.88, "saturation": 1.1}' \
+-d '{"imageUrl":"<URL_TO_BE_OPTIMIZED_IMAGE>","outW":1200,"outH":1600,"format":"jpeg", "epd_optimize": 0, "color_optimize": 1, "fit": "cover", "gamma": 0.88, "saturation": 1.1}' \
 --output out.jpg
 ```
 
@@ -266,6 +269,21 @@ Possible parameters are:
 |liftThreshold|Which color values are considered low? The higher the value, the brighter the tones are lifted; values between 90 and 120 are recommended|
 |epd_optimize|Uses EPDOptimize for paperlesspaper picture frames. Does not work well with BLOOMIN8.|
 |color_optimize|Color optimization, i.e., gamma, saturation, lift|
+
+# My settings for BLOOMIN8 and paperlesspaper
+
+I use both frames to show all kind of photos - portraits, wide-angled landscape views, city photography, available light settings and so on. In my case, I'm quite happy with these settings:
+
+## BLOOMIN8 (portrait orientation)
+```json
+{"outW":1200,"outH":1600,"format":"jpeg", "epd_optimize": 0, "color_optimize": 1, "fit":"cover", "gamma": 0.85, "saturation": 1.15, "lift": 13, "liftThreshold": 90}
+```
+
+## paperlesspaper (portrait orientation)
+```json
+{"outW":480,"outH":800,"format":"png", "epd_optimize": 1, "color_optimize": 0, "fit":"cover"}
+```
+
 
 # 🚫 Limitations
 

@@ -147,38 +147,44 @@ app.post("/optimize", upload.single("image"), async (req, res) => {
     if (epd_optimize) {
       // 2) Output canvases
       const ditheredCanvas = createCanvas(outW, outH);
-      const preparedCanvas = createCanvas(outW, outH);
+      const ditheredCanvasWithDeviceColors = createCanvas(outW, outH);
 
-      // Spectra6 Palette
-      const paletteName = "spectra6";
-      const deviceColorsName = "spectra6";
-      const palette = getDefaultPalettes(paletteName);
+      const palette = [
+              '#191E21',
+              '#e8e8e8',
+              '#2157ba',
+              '#125f20',
+              '#b21318',
+              '#efde44'
+            ];
+      const spectra6colors = [
+              '#000000',
+              '#FFFFFF',
+              '#0000FF',
+              '#00FF00',
+              '#FF0000',
+              '#FFFF00'
+            ];
 
-      const myPalette = [
-        "#1F2226", 
-        "#B9C7C9", 
-        "#233F8E", 
-        "#35563A", 
-        "#62201E", 
-        "#C1BB1E"
-      ];      
-
-      const deviceColors = getDeviceColors(deviceColorsName);
-      // const options = getDitherOptions();
       const options = {
-          algorithm: 'floydSteinberg',
-          palette: myPalette,
+          ditheringType: 'errorDiffusion',
+          errorDiffusionMatrix: 'floydSteinberg',
+          orderedDitheringType: 'bayer',
+          orderedDitheringMatrix: [4, 4],
+          randomDitheringType: 'blackAndWhite',
+          palette: palette
       };
 
+      // Dither the image
       ditherImage(inputCanvas, ditheredCanvas, options);
 
-      // Map device-native colors
-      replaceColors(ditheredCanvas, preparedCanvas, {
-        originalColors: palette,
-        replaceColors: deviceColors
+      // Convert the colors to the display's native colors
+      replaceColors(ditheredCanvas, ditheredCanvasWithDeviceColors, {
+          originalColors: palette,
+          replaceColors: spectra6colors
       });
 
-      buf = preparedCanvas.toBuffer("image/" + format, { quality: 0.92 });
+      buf = ditheredCanvasWithDeviceColors.toBuffer("image/" + format, { quality: 0.92 });
     } else {
       buf = inputCanvas.toBuffer("image/" + format, { quality: 0.98 });
     }
