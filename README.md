@@ -26,6 +26,7 @@
   - [Image optimization using direct POST image upload](#image-optimization-using-direct-post-image-upload)
   - [Possible parameters](#possible-parameters)
   - [bash example](#bash-example)
+  - [Home Assistant: sync images from IMMICH and optimize them](#home-assistant-sync-images-from-immich-and-optimize-them)
 - [My settings for BLOOMIN8 and paperlesspaper](#my-settings-for-bloomin8-and-paperlesspaper)
   - [BLOOMIN8 (portrait orientation)](#bloomin8-portrait-orientation)
   - [paperlesspaper (portrait orientation)](#paperlesspaper-portrait-orientation)
@@ -325,6 +326,10 @@ Here's a quick shell one-liner to process an entire directory of photos into ano
 ```bash
 for FILE in *; do echo $FILE; curl -X POST http://localhost:3030/optimize -F "image=@$FILE" -F "outW=1600" -F "outH=1200" -F "fit=contain" -F "format=jpeg" -F "color_optimize=1" -F "liftThreshold=90" -F "lift=13" -F "saturation=1.15" -F "gamma=0.85" -F "epd_optimize=0" --output ../screen-optimized/$FILE; done
 ```
+
+## Home Assistant: sync images from IMMICH and optimize them
+
+I sync favorite images from my local [IMMICH](https://immich.app/) instance by using [this script](https://github.com/fwmone/home-assistant-gists/blob/main/immich_sync_favorites/immich_sync_favorites.sh). [Here](https://github.com/fwmone/home-assistant-gists?tab=readme-ov-file#immich_sync_favorites) are the usage instructions.
 
 # My settings for BLOOMIN8 and paperlesspaper
 
