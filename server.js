@@ -1,7 +1,7 @@
 import express from "express";
 import multer from "multer";
 import { createCanvas, loadImage } from "canvas";
-import { ditherImage, getDefaultPalettes, getDeviceColors, replaceColors } from 'epdoptimize';
+import { ditherImage, replaceColors, aitjcizeSpectra6Palette } from "epdoptimize";
 
 const app = express();
 app.use(express.json({ limit: "25mb" })); // JSON bodies (imageUrl mode)
@@ -135,7 +135,7 @@ app.post("/optimize", upload.single("image"), async (req, res) => {
     if (color_optimize) {
       let imageData = ictx.getImageData(0, 0, outW, outH);
 
-      liftShadowsSoft(imageData, lift, liftThreshold); 
+      liftShadowsSoft(imageData, lift, liftThreshold);
       applyGammaOnLuma(imageData, gamma);
       applySaturation(imageData, saturation);
 
@@ -149,40 +149,35 @@ app.post("/optimize", upload.single("image"), async (req, res) => {
       const ditheredCanvas = createCanvas(outW, outH);
       const ditheredCanvasWithDeviceColors = createCanvas(outW, outH);
 
-      const palette = [
-              '#191E21',
-              '#e8e8e8',
-              '#2157ba',
-              '#125f20',
-              '#b21318',
-              '#efde44'
-            ];
-      const spectra6colors = [
-              '#000000',
-              '#FFFFFF',
-              '#0000FF',
-              '#00FF00',
-              '#FF0000',
-              '#FFFF00'
-            ];
-
-      const options = {
-          ditheringType: 'errorDiffusion',
-          errorDiffusionMatrix: 'floydSteinberg',
-          orderedDitheringType: 'bayer',
-          orderedDitheringMatrix: [4, 4],
-          randomDitheringType: 'blackAndWhite',
-          palette: palette
+      const config = {
+        "palette": "aitjcizeSpectra6Palette",
+        "ditherOptions": {
+          "processingPreset": "balanced",
+          "ditheringType": "quantizationOnly",
+          "colorMatching": "lab",
+          "toneMapping": {
+            "mode": "contrast",
+            "exposure": 1.05,
+            "saturation": 1,
+            "contrast": 1.18
+          },
+          "dynamicRangeCompression": {
+            "mode": "display",
+            "strength": 0.75
+          }
+        }
       };
 
+      const palette = aitjcizeSpectra6Palette;
+
       // Dither the image
-      ditherImage(inputCanvas, ditheredCanvas, options);
+      await ditherImage(inputCanvas, ditheredCanvas, {
+        ...config.ditherOptions,
+        palette,
+      });
 
       // Convert the colors to the display's native colors
-      replaceColors(ditheredCanvas, ditheredCanvasWithDeviceColors, {
-          originalColors: palette,
-          replaceColors: spectra6colors
-      });
+      replaceColors(ditheredCanvas, ditheredCanvasWithDeviceColors, palette);
 
       buf = ditheredCanvasWithDeviceColors.toBuffer("image/" + format, { quality: 0.92 });
     } else {

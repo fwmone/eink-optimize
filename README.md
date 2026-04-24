@@ -103,7 +103,10 @@ color_optimize = 1
 ```
 
 - As with the BLOOMIN8 frame, colors are not perfectly accurate and remain slightly muted. However, I personally prefer the real-world results on the OpenPaper 7 even more. EPD Optimize appears to handle color reproduction more gracefully than BLOOMIN8’s internal processing.
-- Without EPD Optimize (or the paperlesspaper web UI / app), image quality on this frame is, quite frankly, unusable.
+
+**Update (24. April 2026)**
+- Without EPD Optimize (or the paperlesspaper web UI / app), image quality on this frame was, quite frankly, unusable.
+- As of ~20. April 2026, paperlesspaper changed their uploadSingleImage API call so that it includes their new, optimized version of EPDOptimize. So in this case, you do not need epd_optimize anymore.
 
 ![original](./README/original-2.jpg)
 ![frame-1](./README/frame-3.jpg)
@@ -316,7 +319,7 @@ Possible parameters are:
 |saturation|Color saturation, e.g. 1.1|
 |lift|Elevation of deep colors, values between 0-15 work well|
 |liftThreshold|Which color values are considered low? The higher the value, the brighter the tones are lifted; values between 90 and 120 are recommended|
-|epd_optimize|Uses EPDOptimize for paperlesspaper picture frames. Does not work well with BLOOMIN8.|
+|epd_optimize|Uses EPDOptimize for paperlesspaper picture frames. Not required anymore if you use the paperlesspaper uploadSingleImage API service. Does not work well with BLOOMIN8.|
 |color_optimize|Color optimization, i.e., gamma, saturation, lift|
 
 ## bash example
@@ -342,9 +345,10 @@ I use both frames to show all kind of photos - portraits, wide-angled landscape 
 
 ## paperlesspaper (portrait orientation)
 ```json
-{"outW":480,"outH":800,"format":"png", "epd_optimize": 1, "color_optimize": 0, "fit":"cover"}
+{"outW":480,"outH":800,"format":"png", "epd_optimize": 0, "color_optimize": 0, "fit":"cover"}
 ```
-
+**Update (24. April 2026)**
+- As of ~20. April 2026, paperlesspaper changed their uploadSingleImage API call so that it includes their new, optimized version of EPDOptimize. So in this case, you do not need epd_optimize anymore.
 
 # 🚫 Limitations
 
