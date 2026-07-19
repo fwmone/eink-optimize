@@ -179,9 +179,13 @@ app.post("/optimize", upload.single("image"), async (req, res) => {
       // Convert the colors to the display's native colors
       replaceColors(ditheredCanvas, ditheredCanvasWithDeviceColors, palette);
 
-      buf = ditheredCanvasWithDeviceColors.toBuffer("image/" + format, { quality: 0.92 });
+      buf = ditheredCanvasWithDeviceColors.toBuffer("image/" + format, { quality: 0.90 });
     } else {
-      buf = inputCanvas.toBuffer("image/" + format, { quality: 0.98 });
+      buf = inputCanvas.toBuffer("image/" + format, {
+											      	quality: 0.90,
+											    	progressive: false,
+											    	chromaSubsampling: true
+											    	});
     }
 
     res.setHeader("Content-Type", "image/" + format);
